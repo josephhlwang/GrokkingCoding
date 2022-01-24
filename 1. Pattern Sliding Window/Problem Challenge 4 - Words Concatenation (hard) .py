@@ -1,4 +1,4 @@
-'''
+"""
 Problem Challenge 4
 
 Words Concatenation (hard) 
@@ -15,81 +15,108 @@ Example 2:
 Input: String="catcatfoxfox", Words=["cat", "fox"]
 Output: [3]
 Explanation: The only substring containing both the words is "catfox".
-'''
+"""
 
-#mycode
+
+def ans(str, words):
+    word_freq = {}
+    word_len = len(words[0])
+    num_words = len(words)
+    results = []
+
+    for word in words:
+        word_freq[word] = 1
+
+    for right in range(0, len(str) - num_words * word_len + 1):
+        seen = {}
+
+        for i in range(0, num_words):
+            next_word = right + i * word_len
+            cur_word = str[next_word : next_word + word_len]
+
+            if cur_word not in word_freq or cur_word in seen:
+                break
+
+            seen[cur_word] = 1
+
+            if i + 1 == num_words:
+                results.append(right)
+
+    return results
+
+
+# mycode
 def find_word_concatenation(str, words):
-  result_indices = []
-  word_count = len(words)
-  word_len=len(words[0])
+    result_indices = []
+    word_count = len(words)
+    word_len = len(words[0])
 
-  for i in range(len(str)-word_count*word_len+1):
-    cnt = 0
-    curr=str[i:i+word_count*word_len]
-    
-    for j in range(word_count):
-      
-      if words[j] not in curr:
-        break
-      else:
-        cnt += 1
-    
-    if cnt== word_count:
-      result_indices.append(i)
-      
-  return result_indices
+    for i in range(len(str) - word_count * word_len + 1):
+        cnt = 0
+        curr = str[i : i + word_count * word_len]
+
+        for j in range(word_count):
+
+            if words[j] not in curr:
+                break
+            else:
+                cnt += 1
+
+        if cnt == word_count:
+            result_indices.append(i)
+
+    return result_indices
 
 
-
-#answer
+# answer
 def find_word_concatenation(str, words):
-  if len(words) == 0 or len(words[0]) == 0:
-    return []
+    if len(words) == 0 or len(words[0]) == 0:
+        return []
 
-  word_frequency = {}
+    word_frequency = {}
 
-  for word in words:
-    if word not in word_frequency:
-      word_frequency[word] = 0
-    word_frequency[word] += 1
+    for word in words:
+        if word not in word_frequency:
+            word_frequency[word] = 0
+        word_frequency[word] += 1
 
-  result_indices = []
-  words_count = len(words)
-  word_length = len(words[0])
+    result_indices = []
+    words_count = len(words)
+    word_length = len(words[0])
 
-  for i in range((len(str) - words_count * word_length)+1):
-    words_seen = {}
-    for j in range(0, words_count):
-      next_word_index = i + j * word_length
-      # Get the next word from the string
-      word = str[next_word_index: next_word_index + word_length]
-      if word not in word_frequency:  # Break if we don't need this word
-        break
+    for i in range((len(str) - words_count * word_length) + 1):
+        words_seen = {}
+        for j in range(0, words_count):
 
-      # Add the word to the 'words_seen' map
-      if word not in words_seen:
-        words_seen[word] = 0
-      words_seen[word] += 1
+            next_word_index = i + j * word_length
+            # Get the next word from the string
+            word = str[next_word_index : next_word_index + word_length]
+            if word not in word_frequency:  # Break if we don't need this word
+                break
 
-      # No need to process further if the word has higher frequency than required
-      if words_seen[word] > word_frequency.get(word, 0):
-        break
+            # Add the word to the 'words_seen' map
+            if word not in words_seen:
+                words_seen[word] = 0
+            words_seen[word] += 1
 
-      if j + 1 == words_count:  # Store index if we have found all the words
-        result_indices.append(i)
+            # No need to process further if the word has higher frequency than required
+            if words_seen[word] > word_frequency.get(word, 0):
+                break
+            if j + 1 == words_count:  # Store index if we have found all the words
+                result_indices.append(i)
 
-  return result_indices
+    return result_indices
 
 
 def main():
-  print(find_word_concatenation("catfoxcat", ["cat", "fox"]))
-  print(find_word_concatenation("catcatfoxfox", ["cat", "fox"]))
+    print(ans("catfoxcatrat", ["cat", "fox", "rat"]))
+    print(ans("catcatfoxcatfox", ["cat", "fox"]))
 
 
 main()
 
 
-'''
+"""
 Time Complexity 
 The time complexity of the above algorithm will be O(N * M * Len) where ‘N’ is the number of characters in the given string, 
 ‘M’ is the total number of words, and ‘Len’ is the length of a word.
@@ -97,4 +124,4 @@ The time complexity of the above algorithm will be O(N * M * Len) where ‘N’ 
 Space Complexity 
 The space complexity of the algorithm is O(M) since at most, we will be storing all the words in the two HashMaps. 
 In the worst case, we also need O(N) space for the resulting list. So, the overall space complexity of the algorithm will be O(M+N).
-'''
+"""
