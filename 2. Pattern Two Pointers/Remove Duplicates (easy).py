@@ -17,18 +17,18 @@ Explanation: The first two elements after removing the duplicates will be [2, 11
 
 
 def ans(arr):
-    dup_count = 0
+    if len(arr) < 2:
+        return arr
 
-    first = 1
-    sec = 0
+    left, right = 0, 1
+    count = 1
 
-    while first < len(arr):
-        if arr[first] == arr[sec]:
-            dup_count += 1
-        first += 1
-        sec += 1
-
-    return len(arr) - dup_count
+    while right < len(arr):
+        if arr[right] != arr[left]:
+            count += 1
+            left = right
+        right += 1
+    return count
 
 
 # mycode
