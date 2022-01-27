@@ -16,9 +16,14 @@ Explanation: There are seven contiguous subarrays whose product is less than the
 """
 
 
+from re import sub
+from unittest import result
+
+
 def ans(arr, targ):
     cur_prod = 1
     left = 0
+
     results = []
 
     for right in range(len(arr)):
@@ -32,7 +37,6 @@ def ans(arr, targ):
         for i in range(right, left - 1, -1):
             sub_arr.insert(0, arr[i])
             results.append(list(sub_arr))
-        print(sub_arr)
 
     return results
 
