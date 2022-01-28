@@ -30,7 +30,7 @@ def ans(arr, target):
     result = [float("inf"), float("inf")]
     for i in range(len(arr)):
         third = arr[i]
-        two_sum_close(arr, i, result, third, target)
+        two_sum_close(arr, i + 1, result, third, target)
         if result[0] == 0:
             break
 
