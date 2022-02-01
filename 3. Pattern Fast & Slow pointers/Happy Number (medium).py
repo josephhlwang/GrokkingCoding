@@ -1,41 +1,68 @@
-'''
+"""
 Problem Statement 
 Any number will be called a happy number if, 
 after repeatedly replacing it with a number equal to the sum of the square of all of its digits, 
 leads us to number ‘1’. All other (not-happy) numbers will never reach ‘1’. 
 Instead, they will be stuck in a cycle of numbers which does not include ‘1’.
-'''
+"""
 
-#mycode
+
+def ans(num):
+    if num == 1:
+        return True
+
+    slow = fast = num
+
+    while fast != 1:
+        slow = sum_of_sq(slow)
+        fast = sum_of_sq(sum_of_sq(fast))
+
+        if slow == fast:
+            return False
+
+    return True
+
+
+def sum_of_sq(num):
+    sum = 0
+    while num:
+        sum += (num % 10) ** 2
+        num //= 10
+
+    return sum
+
+
+# mycode
 def find_happy_number(num):
-  # TODO: Write your code here
-  fast, slow = num, num
-  while True:
-    fast = square(square(fast))
-    slow = square(slow)
+    # TODO: Write your code here
+    fast, slow = num, num
+    while True:
+        fast = square(square(fast))
+        slow = square(slow)
 
-    if fast == slow:
-      break
+        if fast == slow:
+            break
 
-  return slow == 1
+    return slow == 1
+
 
 def square(num):
-  square_num = 0
-  while num  > 0:
-    square_num += (num % 10) ** 2
-    num = num // 10
-  return square_num
+    square_num = 0
+    while num > 0:
+        square_num += (num % 10) ** 2
+        num = num // 10
+    return square_num
 
 
 def main():
-  print(find_happy_number(23))
-  print(find_happy_number(12))
+    print(ans(23))
+    print(ans(12))
 
 
 main()
 
 
-'''
+"""
 Time Complexity #
 The time complexity of the algorithm is difficult to determine. 
 However we know the fact that all unhappy numbers eventually get stuck in the cycle: 4 -> 16 -> 37 -> 58 -> 89 -> 145 -> 42 -> 20 -> 4
@@ -54,4 +81,4 @@ This concludes that the above algorithm will have a time complexity of O(logN)O(
 
 Space Complexity 
 The algorithm runs in constant space O(1)O(1).
-'''
+"""
