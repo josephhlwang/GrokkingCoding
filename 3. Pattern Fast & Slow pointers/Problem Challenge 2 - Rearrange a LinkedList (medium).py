@@ -26,7 +26,6 @@ from __future__ import print_function
 def ans(head):
     middle = find_middle(head)
     end = reverse_ll(middle)
-    end.print_list()
     cur = head
 
     while cur and cur.next != end:

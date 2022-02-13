@@ -1,4 +1,4 @@
-'''
+"""
 Problem Challenge 1
 Palindrome LinkedList (medium)
 
@@ -15,145 +15,175 @@ Example 2:
 
 Input: 2 -> 4 -> 6 -> 4 -> 2 -> 2 -> null
 Output: false
-'''
+"""
 
 
+def ans(head):
+    middle = find_middle(head)
+    end = reverse_ll(middle)
+    temp = end
+    cur = head
+
+    results = True
+    while cur and end:
+        if cur.value != end.value:
+            results = False
+        cur = cur.next
+        end = end.next
+
+    reverse_ll(temp)
+
+    return results
 
 
-#mycode
+def find_middle(head):
+    slow = fast = head
+
+    while fast and fast.next:
+        slow = slow.next
+        fast = fast.next.next
+
+    return slow
+
+
+def reverse_ll(head):
+    prev = None
+    cur = head
+
+    while cur:
+        temp = cur.next
+        cur.next = prev
+        prev = cur
+        cur = temp
+
+    return prev
+
+
+# answer
 class Node:
-  def __init__(self, value, next=None):
-    self.value = value
-    self.next = next
+    def __init__(self, value, next=None):
+        self.value = value
+        self.next = next
+
+    def show(self):
+        cur = self
+
+        while cur:
+            print(cur.value)
+            cur = cur.next
 
 
 def is_palindromic_linked_list(head):
-  # TODO: Write your code here
-  slow, fast = head, head
-  while fast is not None and fast.next is not None:
-    slow=slow.next
-    fast=fast.next.next
-  
-  end=reverse(slow)
-  copy_end=end
+    # TODO: Write your code here
+    slow, fast = head, head
+    while fast is not None and fast.next is not None:
+        slow = slow.next
+        fast = fast.next.next
 
-  while head is not None and end is not None:
-    
-    if head.value != end.value:
-      
-      return False
-    head = head.next
-    end = end.next
-  
-  reverse(copy_end)
+    end = reverse(slow)
+    copy_end = end
 
-  return True
+    while head is not None and end is not None:
+
+        if head.value != end.value:
+
+            return False
+        head = head.next
+        end = end.next
+
+    reverse(copy_end)
+
+    return True
 
 
 def reverse(head):
-  former, latter = None, head
-  temp = None
-  while latter:
-     temp = latter
-     latter = latter.next
-     temp.next = former
-     former = temp
-  
-  return temp
+    former, latter = None, head
+    temp = None
+    while latter:
+        temp = latter
+        latter = latter.next
+        temp.next = former
+        former = temp
 
+    return temp
 
 
 def main():
-  head = Node(2)
-  head.next = Node(4)
-  head.next.next = Node(6)
-  head.next.next.next = Node(4)
-  head.next.next.next.next = Node(2)
+    head = Node(2)
+    head.next = Node(4)
+    head.next.next = Node(6)
+    head.next.next.next = Node(4)
+    head.next.next.next.next = Node(2)
+    print("Is palindrome: " + str(ans(head)))
 
-  print("Is palindrome: " + str(is_palindromic_linked_list(head)))
-
-  head.next.next.next.next.next = Node(2)
-  print("Is palindrome: " + str(is_palindromic_linked_list(head)))
+    head.next.next.next.next.next = Node(2)
+    print("Is palindrome: " + str(ans(head)))
 
 
 main()
 
 
-
-#answer
-class Node:
-  def __init__(self, value, next=None):
-    self.value = value
-    self.next = next
-
-
 def is_palindromic_linked_list(head):
-  if head is None or head.next is None:
-    return True
+    if head is None or head.next is None:
+        return True
 
-  # find middle of the LinkedList
-  slow, fast = head, head
-  while (fast is not None and fast.next is not None):
-    slow = slow.next
-    fast = fast.next.next
+    # find middle of the LinkedList
+    slow, fast = head, head
+    while fast is not None and fast.next is not None:
+        slow = slow.next
+        fast = fast.next.next
 
-  head_second_half = reverse(slow)  # reverse the second half
-  # store the head of reversed part to revert back later
-  copy_head_second_half = head_second_half
+    head_second_half = reverse(slow)  # reverse the second half
+    # store the head of reversed part to revert back later
+    copy_head_second_half = head_second_half
 
-  # compare the first and the second half
-  while (head is not None and head_second_half is not None):
-    if head.value != head_second_half.value:
-      break  # not a palindrome
+    # compare the first and the second half
+    while head is not None and head_second_half is not None:
+        if head.value != head_second_half.value:
+            break  # not a palindrome
 
-    head = head.next
-    head_second_half = head_second_half.next
+        head = head.next
+        head_second_half = head_second_half.next
 
-  reverse(copy_head_second_half)  # revert the reverse of the second half
+    reverse(copy_head_second_half)  # revert the reverse of the second half
 
-  if head is None or head_second_half is None:  # if both halves match
-    return True
+    if head is None or head_second_half is None:  # if both halves match
+        return True
 
-  return False
+    return False
 
 
 def reverse(head):
-  prev = None
-  while (head is not None):
-    next = head.next
-    head.next = prev
-    prev = head
-    head = next
-  return prev
+    prev = None
+    while head is not None:
+        next = head.next
+        head.next = prev
+        prev = head
+        head = next
+    return prev
 
 
 def main():
-  head = Node(2)
-  head.next = Node(4)
-  head.next.next = Node(6)
-  head.next.next.next = Node(4)
-  head.next.next.next.next = Node(2)
+    head = Node(2)
+    head.next = Node(4)
+    head.next.next = Node(6)
+    head.next.next.next = Node(4)
+    head.next.next.next.next = Node(2)
 
-  print("Is palindrome: " + str(is_palindromic_linked_list(head)))
+    print("Is palindrome: " + str(is_palindromic_linked_list(head)))
 
-  head.next.next.next.next.next = Node(2)
-  print("Is palindrome: " + str(is_palindromic_linked_list(head)))
+    head.next.next.next.next.next = Node(2)
+
+    print("Is palindrome: " + str(is_palindromic_linked_list(head)))
 
 
 main()
 
 
-
-'''
+"""
 Time complexity 
 The above algorithm will have a time complexity of O(N) where ‘N’ is the number of nodes in the LinkedList.
 
 Space complexity 
 The algorithm runs in constant space O(1).
-'''
-
-
-
-
-
-
+"""
