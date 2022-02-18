@@ -1,4 +1,4 @@
-'''
+"""
 Problem Statement 
 We are given an array containing ‘n’ distinct numbers taken from the range 0 to ‘n’. 
 Since the array has only ‘n’ numbers out of the total ‘n+1’ numbers, find the missing number.
@@ -12,48 +12,70 @@ Example 2:
 
 Input: [8, 3, 5, 2, 4, 6, 0, 1]
 Output: 7
-'''
+"""
 
-#mycode
+
+def ans(nums):
+
+    # index of iterator
+    i = 0
+
+    while i < len(nums):
+        # correct index of iterator
+        j = nums[i]
+
+        if j < len(nums) and nums[i] != nums[j]:
+            nums[i], nums[j] = nums[j], nums[i]
+        else:
+            i += 1
+
+    for x in range(len(nums)):
+        if nums[x] >= len(nums):
+            return x
+
+
+# mycode
 def find_missing_number(nums):
-  # TODO: Write your code here
-  for i in range(len(nums)):
-    if abs(nums[i]) < len(nums):
-      nums[abs(nums[i])] = -nums[abs(nums[i])] 
-  
-  for i in range(len(nums)):
-    if nums[i] > 0:
-      return i
-  return len(nums)
+    # TODO: Write your code here
+    for i in range(len(nums)):
+        if abs(nums[i]) < len(nums):
+            nums[abs(nums[i])] = -nums[abs(nums[i])]
 
-#answer
+    for i in range(len(nums)):
+        if nums[i] > 0:
+            return i
+    return len(nums)
+
+
+# answer
 def find_missing_number(nums):
-  i, n = 0, len(nums)
-  while i < n:
-    j = nums[i]
-    if nums[i] < n and nums[i] != nums[j]:
-      nums[i], nums[j] = nums[j], nums[i]  # swap
-    else:
-      i += 1
+    i, n = 0, len(nums)
+    while i < n:
+        j = nums[i]
+        if nums[i] < n and nums[i] != nums[j]:
+            nums[i], nums[j] = nums[j], nums[i]  # swap
+        else:
+            i += 1
 
-  # find the first number missing from its index, that will be our required number
-  for i in range(n):
-    if nums[i] != i:
-      return i
+    # find the first number missing from its index, that will be our required number
+    for i in range(n):
+        if nums[i] != i:
+            return i
 
-  return n
+    return n
 
 
 def main():
-  print(find_missing_number([4, 0, 3, 1]))
-  print(find_missing_number([8, 3, 5, 2, 4, 6, 0, 1]))
+    print(ans([4, 0, 3, 1]))
+    print(ans([8, 3, 5, 2, 4, 6, 0, 1]))
+    print(find_missing_number([4, 0, 3, 1]))
+    print(find_missing_number([8, 3, 5, 2, 4, 6, 0, 1]))
 
 
 main()
 
 
-
-'''
+"""
 Time complexity 
 The time complexity of the above algorithm is O(n). 
 In the while loop, although we are not incrementing the index i when swapping the numbers, 
@@ -65,4 +87,4 @@ so overall, our algorithm will take O(n) + O(n-1) + O(n)  which is asymptoticall
 
 Space complexity 
 The algorithm runs in constant space O(1).
-'''
+"""
