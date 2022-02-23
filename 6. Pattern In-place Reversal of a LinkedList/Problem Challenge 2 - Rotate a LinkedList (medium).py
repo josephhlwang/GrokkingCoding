@@ -21,7 +21,6 @@ def ans(head, k):
 
     start = cur.next
     cur.next = None
-
     cur = start
 
     while cur and cur.next:

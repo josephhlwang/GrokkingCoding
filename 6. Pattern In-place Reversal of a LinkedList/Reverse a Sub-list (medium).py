@@ -13,6 +13,7 @@ def ans(head, p, q):
     cur = head
     before = head
     i = 1
+
     while cur and i < p:
         cur = cur.next
         i += 1
