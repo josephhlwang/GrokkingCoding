@@ -130,3 +130,27 @@ def max_load(intervals):
         heappush(cur_meetings, meeting)
         max_rooms = max(max_rooms, len(cur_meetings))         
  ```
+
+# Cyclic Sort
+
+Problem: Given an array of size n with intergers from 1 to n; find the missing number or the duplicate number.
+
+Solution: For each item in the array, swap it to the correct index if it's not at the correct index. Then go through the array to find dups and missing numbers.
+
+   ```python
+def cyclic_sort(arr):
+    i = 0
+
+    while i < len(arr):
+        # correct index, -1 because nubmer from 1 to n
+        j = arr[i] - 1
+
+        if arr[j] != arr[i]:
+            arr[j], arr[i] = arr[i], arr[j]
+        else:
+            i+=1
+    
+    for i in range(len(nums)):
+        if nums[i] != i + 1:
+            # return missing or dup
+ ```
