@@ -21,21 +21,19 @@ Explanation: '3' is duplicated and '5' is missing.
 
 def ans(nums):
 
-    # index of iterator
     i = 0
 
     while i < len(nums):
-        # correct index of iterator
         j = nums[i] - 1
 
-        if j < len(nums) and nums[i] != nums[j]:
+        if nums[j] != nums[i]:
             nums[i], nums[j] = nums[j], nums[i]
         else:
             i += 1
 
-    for x in range(len(nums)):
-        if nums[x] != x + 1:
-            return [nums[x], x + 1]
+    for i in range(len(nums)):
+        if nums[i] != i + 1:
+            return [nums[i], i + 1]
 
 
 # mycode

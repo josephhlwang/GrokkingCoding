@@ -24,11 +24,10 @@ Output: 4
 
 def ans(nums):
 
-    # index of iterator
     i = 0
 
     while i < len(nums):
-        # correct index of iterator
+        # since 0 is not a positive number cycle sort 1-n
         j = nums[i] - 1
 
         if 0 <= j < len(nums) and nums[i] != nums[j]:

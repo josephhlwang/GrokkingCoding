@@ -27,23 +27,27 @@ Explanation: The smallest missing positive numbers are 1 and 2.
 
 def ans(nums, k):
 
-    # index of iterator
     i = 0
 
     while i < len(nums):
-        # correct index of iterator
+        # since 0 is not a positive number cycle sort 1-n
         j = nums[i] - 1
 
         if 0 <= j < len(nums) and nums[i] != nums[j]:
             nums[i], nums[j] = nums[j], nums[i]
         else:
             i += 1
+
     missing = []
+    count = 0
     for x in range(len(nums)):
-        if nums[k] > 0 and nums[x] != x + 1:
+        if nums[x] != x + 1:
             missing.append(x + 1)
-        if len(missing) == k:
-            return missing
+            count += 1
+        if count == k - 1:
+            break
+
+    return missing
 
 
 # mycode

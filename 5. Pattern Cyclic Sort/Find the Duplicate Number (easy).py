@@ -22,19 +22,20 @@ Output: 4
 
 
 def ans(nums):
+
     i = 0
 
     while i < len(nums):
         j = nums[i] - 1
 
-        if j != i and nums[j] != nums[i]:
+        if nums[i] != nums[j]:
             nums[i], nums[j] = nums[j], nums[i]
         else:
             i += 1
 
-    for x in range(len(nums)):
-        if x != nums[x] - 1:
-            return nums[x]
+    for i in range(len(nums)):
+        if nums[i] != i + 1:
+            return nums[i]
 
 
 def find_duplicate(nums):

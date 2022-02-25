@@ -17,21 +17,19 @@ Output: 7
 
 def ans(nums):
 
-    # index of iterator
     i = 0
 
     while i < len(nums):
-        # correct index of iterator
         j = nums[i]
 
-        if j < len(nums) and nums[i] != nums[j]:
+        if j < len(nums) and nums[j] != nums[i]:
             nums[i], nums[j] = nums[j], nums[i]
         else:
             i += 1
 
-    for x in range(len(nums)):
-        if nums[x] >= len(nums):
-            return x
+    for i in range(len(nums)):
+        if nums[i] != i:
+            return i
 
 
 # mycode

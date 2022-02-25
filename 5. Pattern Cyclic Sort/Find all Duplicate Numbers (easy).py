@@ -17,11 +17,9 @@ Output: [3, 5]
 
 def ans(nums):
 
-    # index of iterator
     i = 0
 
     while i < len(nums):
-        # correct index of iterator
         j = nums[i] - 1
 
         if nums[i] != nums[j]:
@@ -31,9 +29,9 @@ def ans(nums):
 
     dups = []
 
-    for x in range(len(nums)):
-        if x != nums[x] - 1:
-            dups.append(nums[x])
+    for i in range(len(nums)):
+        if nums[i] != i + 1:
+            dups.append(nums[i])
 
     return dups
 
