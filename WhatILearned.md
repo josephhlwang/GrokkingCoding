@@ -83,3 +83,50 @@ def fast_slow_pointers(head):
 
             
  ```
+
+  # Merge Intervals
+
+  Problem: Given a set of intervals, may or may not be mutually exclusive; Type 1. find a set of merge or intersection intervals. Type 2. find the max "load".
+
+  Solution: ALWAYS SORT BY START
+  
+  Type 1 merge. Keep track of the current merged interval start and end. If the next interval starts before the merged end, merge(take max of ends, min of starts) the new interval. Otherwise, append the merged interval start and end.
+
+```python
+def merge_intervals(intervals):
+    cur_start = intervals[0].start
+    cur_end = intervals[0].end
+    i = 1
+    while i < len(intervals):
+        if intervals[i].start <= cur_end:
+            cur_end = max(intervals[i].end, cur_end)
+        else:
+            results.append(interval(cur_start, cur_end))            
+```
+
+  Type 1 intersection. Given two sets of intervals, if the top intervals intersect, append the intersection(take min of ends, max of starts). Otherwise, iterate the list that ends first.
+
+  ```python
+def intersect_intervals(intervals):
+    while i < len(intervals_a) and j < len(intervals_b):
+        if intervals intersect:
+            results.append(#intersection)
+
+        if intervals_a[i][end] < intervals_b[j][end]:
+            i += 1
+        else:
+            j += 1      
+```
+
+  Type 2. Use priority queue to keep track of concurrent intervals. For each new interval, remove all intervals that finish before the new interval, then append. Keep track of max load.
+
+```python
+def max_load(intervals):
+    cur_meetings = []
+
+    for meeting in meetings:
+        while cur_meetings and cur_meetings[0].end <= meeting.start:
+            heappop(cur_meetings)
+        heappush(cur_meetings, meeting)
+        max_rooms = max(max_rooms, len(cur_meetings))         
+ ```
