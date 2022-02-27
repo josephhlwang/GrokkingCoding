@@ -1,112 +1,146 @@
-'''
+"""
 Problem Statement 
 Given a binary tree and a number ‘S’, 
 find all paths from root-to-leaf such that the sum of all the node values of each path equals ‘S’.
-'''
+"""
 
 
-#mycode
+def ans_caller(root, sum):
+    result = []
+
+    ans(root, sum, [], result)
+
+    return result
+
+
+def ans(root, sum, cur_path, result):
+    if root == None:
+        return
+
+    copy = cur_path.copy()
+    copy.append(root.val)
+
+    if root.left == None and root.right == None and root.val == sum:
+        result.append(copy)
+
+    ans(root.left, sum - root.val, copy, result) or ans(
+        root.right, sum - root.val, copy, result
+    )
+
+
+# mycode
 class TreeNode:
-  def __init__(self, val, left=None, right=None):
-    self.val = val
-    self.left = left
-    self.right = right
+    def __init__(self, val, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
 
 
 def find_paths(root, sum):
-  allPaths = []
-  # TODO: Write your code here
+    allPaths = []
+    # TODO: Write your code here
 
-  find_current_paths(root, sum,[], allPaths)
-  return allPaths
+    find_current_paths(root, sum, [], allPaths)
+    return allPaths
+
 
 def find_current_paths(currentNode, sum, currentPath, allPaths):
-  if not currentNode:
-    return
-  
-  currentPath.append(currentNode.val)
-  
+    if not currentNode:
+        return
 
-  if currentNode.val == sum and currentNode.left is None and currentNode.right is None:
-    allPaths.append(list(currentPath))
-  else:
-    find_current_paths(currentNode.left, sum - currentNode.val, currentPath, allPaths)
-    find_current_paths(currentNode.right, sum - currentNode.val, currentPath, allPaths)
-  
-  del currentPath[-1]
+    currentPath.append(currentNode.val)
+
+    if (
+        currentNode.val == sum
+        and currentNode.left is None
+        and currentNode.right is None
+    ):
+        allPaths.append(list(currentPath))
+    else:
+        find_current_paths(
+            currentNode.left, sum - currentNode.val, currentPath, allPaths
+        )
+        find_current_paths(
+            currentNode.right, sum - currentNode.val, currentPath, allPaths
+        )
+
+    del currentPath[-1]
 
 
 def main():
 
-  root = TreeNode(12)
-  root.left = TreeNode(7)
-  root.right = TreeNode(1)
-  root.left.left = TreeNode(4)
-  root.right.left = TreeNode(10)
-  root.right.right = TreeNode(5)
-  sum = 23
-  print("Tree paths with sum " + str(sum) +
-        ": " + str(find_paths(root, sum)))
+    root = TreeNode(12)
+    root.left = TreeNode(7)
+    root.right = TreeNode(1)
+    root.left.left = TreeNode(4)
+    root.right.left = TreeNode(10)
+    root.right.right = TreeNode(5)
+    sum = 23
+    print("Tree paths with sum " + str(sum) + ": " + str(ans_caller(root, sum)))
 
 
 main()
 
 
-#answer
+# answer
 class TreeNode:
-  def __init__(self, val, left=None, right=None):
-    self.val = val
-    self.left = left
-    self.right = right
+    def __init__(self, val, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
 
 
 def find_paths(root, sum):
-  allPaths = []
-  find_paths_recursive(root, sum, [], allPaths)
-  return allPaths
+    allPaths = []
+    find_paths_recursive(root, sum, [], allPaths)
+    return allPaths
 
 
 def find_paths_recursive(currentNode, sum, currentPath, allPaths):
-  if currentNode is None:
-    return
+    if currentNode is None:
+        return
 
-  # add the current node to the path
-  currentPath.append(currentNode.val)
+    # add the current node to the path
+    currentPath.append(currentNode.val)
 
-  # if the current node is a leaf and its value is equal to sum, save the current path
-  if currentNode.val == sum and currentNode.left is None and currentNode.right is None:
-    allPaths.append(list(currentPath))
-  else:
-    # traverse the left sub-tree
-    find_paths_recursive(currentNode.left, sum -
-                         currentNode.val, currentPath, allPaths)
-    # traverse the right sub-tree
-    find_paths_recursive(currentNode.right, sum -
-                         currentNode.val, currentPath, allPaths)
+    # if the current node is a leaf and its value is equal to sum, save the current path
+    if (
+        currentNode.val == sum
+        and currentNode.left is None
+        and currentNode.right is None
+    ):
+        allPaths.append(list(currentPath))
+    else:
+        # traverse the left sub-tree
+        find_paths_recursive(
+            currentNode.left, sum - currentNode.val, currentPath, allPaths
+        )
+        # traverse the right sub-tree
+        find_paths_recursive(
+            currentNode.right, sum - currentNode.val, currentPath, allPaths
+        )
 
-  # remove the current node from the path to backtrack,
-  # we need to remove the current node while we are going up the recursive call stack.
-  del currentPath[-1]
+    # remove the current node from the path to backtrack,
+    # we need to remove the current node while we are going up the recursive call stack.
+    del currentPath[-1]
 
 
 def main():
 
-  root = TreeNode(12)
-  root.left = TreeNode(7)
-  root.right = TreeNode(1)
-  root.left.left = TreeNode(4)
-  root.right.left = TreeNode(10)
-  root.right.right = TreeNode(5)
-  sum = 23
-  print("Tree paths with sum " + str(sum) +
-        ": " + str(find_paths(root, sum)))
+    root = TreeNode(12)
+    root.left = TreeNode(7)
+    root.right = TreeNode(1)
+    root.left.left = TreeNode(4)
+    root.right.left = TreeNode(10)
+    root.right.right = TreeNode(5)
+    sum = 23
+    print("Tree paths with sum " + str(sum) + ": " + str(find_paths(root, sum)))
 
 
 main()
 
 
-
-'''
+"""
 Time complexity 
 The time complexity of the above algorithm is O(N^2), where ‘N’ is the total number of nodes in the tree. 
 This is due to the fact that we traverse each node once (which will take O(N)), 
@@ -135,10 +169,10 @@ From the above discussion, we can conclude that the overall space complexity of 
 
 Also from the above discussion, since for each leaf node, in the worst case, 
 we have to copy log(N) nodes to store its path, therefore the time complexity of our algorithm will also be O(N*logN).
-'''
+"""
 
 
-'''
+"""
 Similar Problems 
 Problem 1: Given a binary tree, return all root-to-leaf paths.
 
@@ -148,4 +182,4 @@ Problem 2: Given a binary tree, find the root-to-leaf path with the maximum sum.
 
 Solution: We need to find the path with the maximum sum. As we traverse all paths, 
 we can keep track of the path with the maximum sum.
-'''
+"""
