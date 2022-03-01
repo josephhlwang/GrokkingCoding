@@ -10,18 +10,18 @@ from __future__ import print_function
 
 def ans(head, p, q):
 
-    cur = head
-    before = head
-    i = 1
+    cur = prev = head
 
-    while cur and i < p:
+    i = 0
+
+    while i < p - 1:
+        prev = cur
         cur = cur.next
         i += 1
-        if i == p:
-            break
-        before = before.next
 
-    end = cur
+    og_left = prev
+    rev_right = cur
+
     prev = None
 
     while cur and i < q:
@@ -31,14 +31,15 @@ def ans(head, p, q):
         cur = temp
         i += 1
 
-    front = cur
-    after = front.next
-    cur.next = prev
+    og_right = cur
+    rev_left = prev
 
-    before.next = front
-    end.next = after
+    og_left.next = rev_left
+    rev_right.next = og_right
 
-    return head
+    if p > 1:
+        return head
+    return rev_left
 
 
 class Node:
