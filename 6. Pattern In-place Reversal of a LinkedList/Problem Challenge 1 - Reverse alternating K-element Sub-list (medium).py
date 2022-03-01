@@ -13,39 +13,44 @@ from __future__ import print_function
 
 
 def ans(head, k):
-    start, next_node = reverse(head, k)
-    new_head = start
+    left_rev, right_rev = reverse(head, k)
 
-    while next_node:
-        count = 0
-        while next_node and count < k - 1:
+    while right_rev:
+        prev = right_rev
+        next_node = prev.next
+        i = 0
+
+        while next_node and i < k:
+            prev = prev.next
             next_node = next_node.next
-            count += 1
-        before_node = next_node
-        next_node = next_node.next
-        new_start, next_node = reverse(next_node, k)
-        before_node.next = new_start
+            i += 1
 
-    return new_head
+        if next_node == None:
+            break
+
+        new_left_rev, new_right_rev = reverse(next_node, k)
+        prev.next = new_left_rev
+        right_rev = new_right_rev
+
+    return left_rev
 
 
-def reverse(head, k):
-    count = 0
-    cur = end = head
+def reverse(cur_node, k):
+    right_rev = cur = cur_node
+    i = 0
     prev = None
 
-    while cur and count < k:
+    while cur and i < k:
         temp = cur.next
         cur.next = prev
         prev = cur
         cur = temp
-        count += 1
+        i += 1
 
-    start = prev
-    if end:
-        end.next = cur
+    left_rev = prev
+    right_rev.next = cur
 
-    return start, cur
+    return left_rev, right_rev
 
 
 class Node:
