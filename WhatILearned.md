@@ -154,3 +154,23 @@ def cyclic_sort(arr):
         if nums[i] != i + 1:
             # return missing or dup
  ```
+
+ # Reversal of Linked List
+
+Problem: Given a linked list reverse elements within it.
+
+Solution: Iterate through the list and keep track of the previous node while using a temp to keep track of the next reversal node.
+
+   ```python
+def reverse(head):
+    prev = None
+    cur = head
+
+    while cur:
+        temp = cur.next
+        cur.next = prev
+        prev = cur
+        cur = temp
+    
+    return prev
+ ```
