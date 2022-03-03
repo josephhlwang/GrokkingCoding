@@ -1,4 +1,4 @@
-'''
+"""
 Problem Statement 
 Design a class to calculate the median of a number stream. The class should have the following two methods:
 
@@ -15,104 +15,122 @@ Example 1:
 5. findMedian() -> output: 3
 6. insertNum(4)
 7. findMedian() -> output: 3.5
-'''
+"""
 
-#mycode
+# mycode
 from heapq import *
+
+
+class MedianOfStream:
+    minHeap = []
+    maxHeap = []
+    length = 0
+
+    def find_median(self):
+        if self.length == 0:
+            return None
+        elif self.length % 2 == 0:
+            return (self.minHeap[0] + -1 * self.maxHeap[0]) / 2
+        else:
+            return self.minHeap[0]
+
+    def insert_num(self, num):
+        if self.length % 2 == 0:
+            heappush(self.minHeap, num)
+        else:
+            heappush(self.maxHeap, -1 * num)
+        self.length += 1
+
 
 class MedianOfAStream:
 
-  minHeap = []
-  maxHeap = []
+    minHeap = []
+    maxHeap = []
 
-  def insert_num(self, num):
-   # TODO: Write your code here
-    if not self.minHeap or num <= -self.minHeap[0]:
-      heappush(self.minHeap, -num)
-    else:
-      heappush(self.maxHeap, num)
-    
-    if len(self.minHeap) > len(self.maxHeap) + 1:
-      heappush(self.maxHeap, -heappop(self.minHeap))
-    elif len(self.minHeap) < len(self.maxHeap):
-      heappush(self.minHeap,-heappop(self.maxHeap))
+    def insert_num(self, num):
+        # TODO: Write your code here
+        if not self.minHeap or num <= -self.minHeap[0]:
+            heappush(self.minHeap, -num)
+        else:
+            heappush(self.maxHeap, num)
 
+        if len(self.minHeap) > len(self.maxHeap) + 1:
+            heappush(self.maxHeap, -heappop(self.minHeap))
+        elif len(self.minHeap) < len(self.maxHeap):
+            heappush(self.minHeap, -heappop(self.maxHeap))
 
-  def find_median(self):
-    # TODO: Write your code here
-    if len(self.maxHeap) == len(self.minHeap):
-      return (self.maxHeap[0] - self.minHeap[0]) / 2
-    else:
-      return -self.minHeap[0]
+    def find_median(self):
+        # TODO: Write your code here
+        if len(self.maxHeap) == len(self.minHeap):
+            return (self.maxHeap[0] - self.minHeap[0]) / 2
+        else:
+            return -self.minHeap[0]
 
 
 def main():
-  medianOfAStream = MedianOfAStream()
-  medianOfAStream.insert_num(3)
-  medianOfAStream.insert_num(1)
-  print("The median is: " + str(medianOfAStream.find_median()))
-  medianOfAStream.insert_num(5)
-  print("The median is: " + str(medianOfAStream.find_median()))
-  medianOfAStream.insert_num(4)
-  print("The median is: " + str(medianOfAStream.find_median()))
+    medianOfAStream = MedianOfStream()
+    medianOfAStream.insert_num(3)
+    medianOfAStream.insert_num(1)
+    print("The median is: " + str(medianOfAStream.find_median()))
+    medianOfAStream.insert_num(5)
+    print("The median is: " + str(medianOfAStream.find_median()))
+    medianOfAStream.insert_num(4)
+    print("The median is: " + str(medianOfAStream.find_median()))
 
 
 main()
 
 
-
-#answer
+# answer
 from heapq import *
 
 
 class MedianOfAStream:
 
-  maxHeap = []  # containing first half of numbers
-  minHeap = []  # containing second half of numbers
+    maxHeap = []  # containing first half of numbers
+    minHeap = []  # containing second half of numbers
 
-  def insert_num(self, num):
-    if not self.maxHeap or -self.maxHeap[0] >= num:
-      heappush(self.maxHeap, -num)
-    else:
-      heappush(self.minHeap, num)
+    def insert_num(self, num):
+        if not self.maxHeap or -self.maxHeap[0] >= num:
+            heappush(self.maxHeap, -num)
+        else:
+            heappush(self.minHeap, num)
 
-    # either both the heaps will have equal number of elements or max-heap will have one
-    # more element than the min-heap
-    if len(self.maxHeap) > len(self.minHeap) + 1:
-      heappush(self.minHeap, -heappop(self.maxHeap))
-    elif len(self.maxHeap) < len(self.minHeap):
-      heappush(self.maxHeap, -heappop(self.minHeap))
+        # either both the heaps will have equal number of elements or max-heap will have one
+        # more element than the min-heap
+        if len(self.maxHeap) > len(self.minHeap) + 1:
+            heappush(self.minHeap, -heappop(self.maxHeap))
+        elif len(self.maxHeap) < len(self.minHeap):
+            heappush(self.maxHeap, -heappop(self.minHeap))
 
-  def find_median(self):
-    if len(self.maxHeap) == len(self.minHeap):
-      # we have even number of elements, take the average of middle two elements
-      return -self.maxHeap[0] / 2.0 + self.minHeap[0] / 2.0
+    def find_median(self):
+        if len(self.maxHeap) == len(self.minHeap):
+            # we have even number of elements, take the average of middle two elements
+            return -self.maxHeap[0] / 2.0 + self.minHeap[0] / 2.0
 
-    # because max-heap will have one more element than the min-heap
-    return -self.maxHeap[0] / 1.0
+        # because max-heap will have one more element than the min-heap
+        return -self.maxHeap[0] / 1.0
 
 
 def main():
-  medianOfAStream = MedianOfAStream()
-  medianOfAStream.insert_num(3)
-  medianOfAStream.insert_num(1)
-  print("The median is: " + str(medianOfAStream.find_median()))
-  medianOfAStream.insert_num(5)
-  print("The median is: " + str(medianOfAStream.find_median()))
-  medianOfAStream.insert_num(4)
-  print("The median is: " + str(medianOfAStream.find_median()))
+    medianOfAStream = MedianOfAStream()
+    medianOfAStream.insert_num(3)
+    medianOfAStream.insert_num(1)
+    print("The median is: " + str(medianOfAStream.find_median()))
+    medianOfAStream.insert_num(5)
+    print("The median is: " + str(medianOfAStream.find_median()))
+    medianOfAStream.insert_num(4)
+    print("The median is: " + str(medianOfAStream.find_median()))
 
 
 main()
 
 
-
-
-'''
+"""
 Time complexity 
 The time complexity of the insertNum() will be O(logN) due to the insertion in the heap. 
 The time complexity of the findMedian() will be O(1) as we can find the median from the top elements of the heaps.
 
 Space complexity 
 The space complexity will be O(N) because, as at any time, we will be storing all the numbers.
-'''
+"""
