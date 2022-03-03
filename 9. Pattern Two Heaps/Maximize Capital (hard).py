@@ -1,4 +1,4 @@
-'''
+"""
 Problem Statement 
 Given a set of investment projects with their respective profits, we need to find the most profitable projects. We are given an initial capital and are allowed to invest only in a fixed number of projects. Our goal is to choose projects that give us the maximum profit.
 
@@ -24,89 +24,109 @@ With ‘0’ capital, we can only select the first project, bringing out capital
 Next, we will select the second project, which will bring our capital to 3.
 Next, we will select the fourth project, giving us a profit of 5.
 After selecting the three projects, our total capital will be 8 (1+2+5).
-'''
+"""
 
 
-#mycode
+# mycode
 from heapq import *
 
+
+def ans(requiredCapital, profits, numberOfProjects, initialCapital):
+    min_capital_req = []
+    max_profit_req = []
+    for i in range(len(requiredCapital)):
+        heappush(min_capital_req, (requiredCapital[i], i))
+
+    cur_capital = initialCapital
+    cur_projects = 0
+    while cur_projects < numberOfProjects:
+        while min_capital_req and min_capital_req[0][0] <= cur_capital:
+            req_captial, i = heappop(min_capital_req)
+            heappush(max_profit_req, (-1 * profits[i], i))
+
+        if len(max_profit_req) == 0:
+            break
+
+        cur_capital += -1 * heappop(max_profit_req)[0]
+        cur_projects += 1
+
+    return cur_capital
+
+
 def find_maximum_capital(capital, profits, numberOfProjects, initialCapital):
-  # TODO: Write your code here
-  capitalList = []
-  profitList = []
+    # TODO: Write your code here
+    capitalList = []
+    profitList = []
 
-  for i in range(len(capital)):
-    heappush(capitalList, (capital[i],i))
+    for i in range(len(capital)):
+        heappush(capitalList, (capital[i], i))
 
-  availableCapital = initialCapital
-  for i in range(numberOfProjects):
-    while capitalList and capitalList[0][0] <= availableCapital:
-      capital, i = heappop(capitalList)
-      heappush(profitList, -profits[i])
-    
-    if not profitList:
-      break
+    availableCapital = initialCapital
+    for i in range(numberOfProjects):
+        while capitalList and capitalList[0][0] <= availableCapital:
+            capital, i = heappop(capitalList)
+            heappush(profitList, -profits[i])
 
-    availableCapital -= heappop(profitList)
+        if not profitList:
+            break
 
-  return availableCapital
+        availableCapital -= heappop(profitList)
+
+    return availableCapital
 
 
 def main():
 
-  print("Maximum capital: " +
-        str(find_maximum_capital([0, 1, 2], [1, 2, 3], 2, 1)))
-  print("Maximum capital: " +
-        str(find_maximum_capital([0, 1, 2, 3], [1, 2, 3, 5], 3, 0)))
+    print("Maximum capital: " + str(ans([0, 1, 2], [1, 2, 3], 2, 1)))
+    print("Maximum capital: " + str(ans([0, 1, 2, 3], [1, 2, 3, 5], 3, 0)))
 
 
 main()
 
 
-
-#answer
+# answer
 from heapq import *
 
 
 def find_maximum_capital(capital, profits, numberOfProjects, initialCapital):
-  minCapitalHeap = []
-  maxProfitHeap = []
+    minCapitalHeap = []
+    maxProfitHeap = []
 
-  # insert all project capitals to a min-heap
-  for i in range(0, len(profits)):
-    heappush(minCapitalHeap, (capital[i], i))
+    # insert all project capitals to a min-heap
+    for i in range(0, len(profits)):
+        heappush(minCapitalHeap, (capital[i], i))
 
-  # let's try to find a total of 'numberOfProjects' best projects
-  availableCapital = initialCapital
-  for _ in range(numberOfProjects):
-    # find all projects that can be selected within the available capital and insert them in a max-heap
-    while minCapitalHeap and minCapitalHeap[0][0] <= availableCapital:
-      capital, i = heappop(minCapitalHeap)
-      heappush(maxProfitHeap, (-profits[i], i))
+    # let's try to find a total of 'numberOfProjects' best projects
+    availableCapital = initialCapital
+    for _ in range(numberOfProjects):
+        # find all projects that can be selected within the available capital and insert them in a max-heap
+        while minCapitalHeap and minCapitalHeap[0][0] <= availableCapital:
+            capital, i = heappop(minCapitalHeap)
+            heappush(maxProfitHeap, (-profits[i], i))
 
-    # terminate if we are not able to find any project that can be completed within the available capital
-    if not maxProfitHeap:
-      break
+        # terminate if we are not able to find any project that can be completed within the available capital
+        if not maxProfitHeap:
+            break
 
-    # select the project with the maximum profit
-    availableCapital += -heappop(maxProfitHeap)[0]
+        # select the project with the maximum profit
+        availableCapital += -heappop(maxProfitHeap)[0]
 
-  return availableCapital
+    return availableCapital
 
 
 def main():
 
-  print("Maximum capital: " +
-        str(find_maximum_capital([0, 1, 2], [1, 2, 3], 2, 1)))
-  print("Maximum capital: " +
-        str(find_maximum_capital([0, 1, 2, 3], [1, 2, 3, 5], 3, 0)))
+    print("Maximum capital: " + str(find_maximum_capital([0, 1, 2], [1, 2, 3], 2, 1)))
+    print(
+        "Maximum capital: "
+        + str(find_maximum_capital([0, 1, 2, 3], [1, 2, 3, 5], 3, 0))
+    )
 
 
 main()
 
 
-
-'''
+"""
 Time complexity 
 Since, at the most, all the projects will be pushed to both the heaps once, 
 the time complexity of our algorithm is O(NlogN + KlogN), 
@@ -114,4 +134,4 @@ where ‘N’ is the total number of projects and ‘K’ is the number of proje
 
 Space complexity 
 The space complexity will be O(N) because we will be storing all the projects in the heaps.
-'''
+"""
