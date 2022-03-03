@@ -1,4 +1,4 @@
-'''
+"""
 Problem Challenge 1
 
 Next Interval (hard) 
@@ -20,112 +20,133 @@ Example 2:
 Input: Intervals [[3,4], [1,5], [4,6]]
 Output: [2, -1, -1]
 Explanation: The next interval of [3,4] is [4,6] which has index ‘2’. There is no next interval for [1,5] and [4,6].
-'''
+"""
 
-#mycode
+# mycode
 from heapq import *
 
+
+def ans(intervals):
+    start_heap = []
+    end_heap = []
+
+    for i in range(len(intervals)):
+        heappush(start_heap, (intervals[i].start, i))
+        heappush(end_heap, (intervals[i].end, i))
+
+    results = [-1] * len(intervals)
+
+    while end_heap:
+        end, i = heappop(end_heap)
+
+        while start_heap and (end > start_heap[0][0] or i == start_heap[0][1]):
+            heappop(start_heap)
+
+        if start_heap == []:
+            break
+
+        _, start_i = start_heap[0]
+
+        results[i] = start_i
+
+    return results
+
+
 class Interval:
-  def __init__(self, start, end):
-    self.start = start
-    self.end = end
+    def __init__(self, start, end):
+        self.start = start
+        self.end = end
 
 
 def find_next_interval(intervals):
-  startList = []
-  endList = []
-  result = [-1] * len(intervals)
+    startList = []
+    endList = []
+    result = [-1] * len(intervals)
 
-  for i in range(len(intervals)):
-    heappush(startList,(intervals[i].start,i))
-    heappush(endList,(intervals[i].end,i))
-  
-  while endList:
-    endValue, endIndex = heappop(endList)
+    for i in range(len(intervals)):
+        heappush(startList, (intervals[i].start, i))
+        heappush(endList, (intervals[i].end, i))
 
-    
-    while startList and startList[0][0] < endValue:
-       heappop(startList)
-    
-    if startList:
-      startValue, startIndex = heappop(startList)
-      result[endIndex] = startIndex
-      heappush(startList,(startValue,startIndex))
-  
-  return result
+    while endList:
+        endValue, endIndex = heappop(endList)
+
+        while startList and startList[0][0] < endValue:
+            heappop(startList)
+
+        if startList:
+            startValue, startIndex = heappop(startList)
+            result[endIndex] = startIndex
+            heappush(startList, (startValue, startIndex))
+
+    return result
 
 
 def main():
 
-  result = find_next_interval(
-    [Interval(2, 3), Interval(3, 4), Interval(5, 6)])
-  print("Next interval indices are: " + str(result))
+    result = ans([Interval(2, 3), Interval(3, 4), Interval(5, 6)])
+    print("Next interval indices are: " + str(result))
 
-  result = find_next_interval(
-    [Interval(3, 4), Interval(1, 5), Interval(4, 6)])
-  print("Next interval indices are: " + str(result))
+    result = ans([Interval(3, 4), Interval(1, 5), Interval(4, 6)])
+    print("Next interval indices are: " + str(result))
 
 
 main()
 
 
-
-#answer
+# answer
 from heapq import *
 
 
 class Interval:
-  def __init__(self, start, end):
-    self.start = start
-    self.end = end
+    def __init__(self, start, end):
+        self.start = start
+        self.end = end
 
 
 def find_next_interval(intervals):
-  n = len(intervals)
+    n = len(intervals)
 
-  # heaps for finding the maximum start and end
-  maxStartHeap, maxEndHeap = [], []
+    # heaps for finding the maximum start and end
+    maxStartHeap, maxEndHeap = [], []
 
-  result = [0 for x in range(n)]
-  for endIndex in range(n):
-    heappush(maxStartHeap, (-intervals[endIndex].start, endIndex))
-    heappush(maxEndHeap, (-intervals[endIndex].end, endIndex))
+    result = [0 for x in range(n)]
+    for endIndex in range(n):
+        heappush(maxStartHeap, (-intervals[endIndex].start, endIndex))
+        heappush(maxEndHeap, (-intervals[endIndex].end, endIndex))
 
-  # go through all the intervals to find each interval's next interval
-  for _ in range(n):
-    # let's find the next interval of the interval which has the highest 'end'
-    topEnd, endIndex = heappop(maxEndHeap)
-    result[endIndex] = -1  # defaults to - 1
-    if -maxStartHeap[0][0] >= -topEnd:
-      topStart, startIndex = heappop(maxStartHeap)
-      # find the the interval that has the closest 'start'
-      while maxStartHeap and -maxStartHeap[0][0] >= -topEnd:
-        topStart, startIndex = heappop(maxStartHeap)
-      result[endIndex] = startIndex
-      # put the interval back as it could be the next interval of other intervals
-      heappush(maxStartHeap, (topStart, startIndex))
+    # go through all the intervals to find each interval's next interval
+    for _ in range(n):
+        # let's find the next interval of the interval which has the highest 'end'
+        topEnd, endIndex = heappop(maxEndHeap)
+        result[endIndex] = -1  # defaults to - 1
+        if -maxStartHeap[0][0] >= -topEnd:
+            topStart, startIndex = heappop(maxStartHeap)
+            # find the the interval that has the closest 'start'
+            while maxStartHeap and -maxStartHeap[0][0] >= -topEnd:
+                topStart, startIndex = heappop(maxStartHeap)
+            result[endIndex] = startIndex
+            # put the interval back as it could be the next interval of other intervals
+            heappush(maxStartHeap, (topStart, startIndex))
 
-  return result
+    return result
 
 
 def main():
 
-  result = find_next_interval(
-    [Interval(2, 3), Interval(3, 4), Interval(5, 6)])
-  print("Next interval indices are: " + str(result))
+    result = find_next_interval([Interval(2, 3), Interval(3, 4), Interval(5, 6)])
+    print("Next interval indices are: " + str(result))
 
-  result = find_next_interval(
-    [Interval(3, 4), Interval(1, 5), Interval(4, 6)])
-  print("Next interval indices are: " + str(result))
+    result = find_next_interval([Interval(3, 4), Interval(1, 5), Interval(4, 6)])
+    print("Next interval indices are: " + str(result))
 
 
 main()
 
 
-'''
+"""
 Time complexity 
 The time complexity of our algorithm will be O(NlogN), where ‘N’ is the total number of intervals.
 
 Space complexity 
 The space complexity will be O(N) because we will be storing all the intervals in the heaps.
-'''
+"""
