@@ -174,3 +174,33 @@ def reverse(head):
     
     return prev
  ```
+
+# BFS Binary Tree
+
+Problem: Given a binary tree, do BFS traversal.
+
+Solution: Loop through the queue while adding child nodes to end of queue. Continue until queue is empty. Keep track of the number of nodes in current level and next level to determine when to jump levels.
+
+   ```python
+def BFS(root):
+    cur_level, next_level = 1, 0
+
+    queue = [root]
+
+    while queue:
+        cur_node = queue.pop()
+        cur_level -= 1
+        # do something with current node
+
+        if cur_node.left:
+            queue.insert(0, cur_node.left)
+            next_count += 1
+        
+        if cur_node.right:
+            queue.insert(0, cur_node.right)
+            next_count += 1
+        
+        if cur_count == 0:
+            cur_count, next_count = next_count, 0
+            # next level reached
+ ```
