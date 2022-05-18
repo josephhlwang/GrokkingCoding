@@ -12,35 +12,36 @@ from pickle import TRUE
 
 
 def ans(root):
-    queue = deque()
-    queue.append(root)
+    if not root:
+        return []
+
     result = []
-    cur_vals = []
+    cur_level = []
+    queue = deque([root])
+    cur_count, next_count = 1, 0
     l2r = True
 
-    cur_level, next_level = 1, 0
-    while len(queue):
-        cur = queue.popleft()
-        if l2r:
-            cur_vals.append(cur.val)
-        else:
-            cur_vals.insert(0, cur.val)
+    while queue:
+        cur_node = queue.pop()
+        cur_level.append(cur_node.val)
+        cur_count -= 1
 
-        cur_level -= 1
+        if cur_node.left:
+            queue.appendleft(cur_node.left)
+            next_count += 1
+        
+        if cur_node.right:
+            queue.appendleft(cur_node.right)
+            next_count += 1
 
-        if cur.left:
-            queue.append(cur.left)
-            next_level += 1
-        if cur.right:
-            queue.append(cur.right)
-            next_level += 1
-
-        if cur_level == 0:
-            result.append(cur_vals)
-            cur_vals = []
+        if cur_count == 0:
+            cur_count, next_count = next_count, 0
             l2r = not l2r
-            cur_level, next_level = next_level, 0
-
+            if l2r:
+                cur_level.reverse()
+            result.append(cur_level)
+            cur_level = []
+    
     return result
 
 

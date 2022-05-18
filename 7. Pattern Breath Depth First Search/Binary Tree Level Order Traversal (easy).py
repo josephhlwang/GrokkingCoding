@@ -9,26 +9,35 @@ from collections import deque
 
 
 def ans(root):
-    queue = deque()
-    queue.append(root)
-    result = []
-    cur_vals = []
-    cur_level, next_level = 1, 0
-    while len(queue):
-        cur = queue.popleft()
-        cur_vals.append(cur.val)
-        cur_level -= 1
-        if cur.left:
-            queue.append(cur.left)
-            next_level += 1
-        if cur.right:
-            queue.append(cur.right)
-            next_level += 1
-        if cur_level == 0:
-            result.append(cur_vals)
-            cur_vals = []
-            cur_level, next_level = next_level, 0
 
+    if not root:
+        return []
+
+    result = []
+    cur_level = []
+    queue = deque()
+
+    queue.appendleft(root)
+    cur_count, next_count = 1, 0
+
+    while queue:
+        cur_node = queue.pop()
+        cur_level.append(cur_node.val)
+        cur_count -= 1
+
+        if cur_node.left:
+            queue.appendleft(cur_node.left)
+            next_count += 1
+        
+        if cur_node.right:
+            queue.appendleft(cur_node.right)
+            next_count += 1
+
+        if cur_count == 0:
+            cur_count, next_count = next_count, 0
+            result.append(cur_level)
+            cur_level = []
+        
     return result
 
 

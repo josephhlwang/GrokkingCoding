@@ -12,23 +12,29 @@ from collections import deque
 
 
 def ans(root):
-    queue = deque()
-    queue.append(root)
+    if not root:
+        return
 
-    while len(queue):
-        cur = queue.popleft()
+    queue = deque([root])
+    cur_count, next_count = 1, 0
 
-        if cur.left:
-            queue.append(cur.left)
+    while queue:
+        cur_node = queue.pop()
+        cur_count -= 1
 
-        if cur.right:
-            queue.append(cur.right)
+        if cur_node.left:
+            queue.appendleft(cur_node.left)
+            next_count += 1
+        
+        if cur_node.right:
+            queue.appendleft(cur_node.right)
+            next_count += 1
 
-        if len(queue):
-            next_node = queue[0]
-            cur.next = next_node
 
-    return root
+        cur_node.next = None if not queue else queue[-1]
+
+        if cur_count == 0:
+            cur_count, next_count = next_count, 0
 
 
 class TreeNode:

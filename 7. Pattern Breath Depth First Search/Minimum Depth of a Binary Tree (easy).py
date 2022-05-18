@@ -9,33 +9,33 @@ from collections import deque
 
 
 def ans(root):
-    queue = deque()
-    cur_level, next_level = 1, 0
-    min_level = 1
+    if not root:
+        return None
+    
+    cur_level, next_level, depth = 1, 0, 1
 
-    queue.append(root)
+    queue = deque([root])
 
-    while len(queue):
-        cur = queue.popleft()
+    while queue:
+        cur_node = queue.popleft()
         cur_level -= 1
 
-        if cur.left == None and cur.right == None:
-            break
-
-        if cur.left:
-            queue.append(cur.left)
+        if not cur_node.left and not cur_node.right:
+            return depth
+        
+        if cur_node.left:
+            queue.append(cur_node.left)
             next_level += 1
 
-        if cur.right:
-            queue.append(cur.right)
+        if cur_node.right:
+            queue.append(cur_node.right)
             next_level += 1
 
         if cur_level == 0:
-            if next_level:
-                min_level += 1
             cur_level, next_level = next_level, 0
-
-    return min_level
+            depth += 1
+    
+    return None
 
 
 class TreeNode:
@@ -160,29 +160,34 @@ from collections import deque
 
 
 def ans_max(root):
-    queue = deque()
-    cur_level, next_level = 1, 0
+
+    if not root:
+        return None
+
+    queue = deque([root])
+    cur_level, next_level, depth = 1, 0, 1
     max_level = 1
 
-    queue.append(root)
+    while queue:
 
-    while len(queue):
-        cur = queue.popleft()
+        cur_node = queue.popleft()
         cur_level -= 1
 
-        if cur.left:
-            queue.append(cur.left)
-            next_level += 1
+        if not cur_node.left and not cur_node.right:
+            max_level = depth
 
-        if cur.right:
-            queue.append(cur.right)
+        if cur_node.left:
+            queue.append(cur_node.left)
+            next_level += 1
+        
+        if cur_node.right:
+            queue.append(cur_node.right)
             next_level += 1
 
         if cur_level == 0:
-            if next_level:
-                max_level += 1
             cur_level, next_level = next_level, 0
-
+            depth += 1
+        
     return max_level
 
 

@@ -8,32 +8,33 @@ from collections import deque
 
 
 def ans(root):
+
+    if not root:
+        return []
+
+    cur_level, next_level, cur_sum, cur_total = 1, 0, 0, 1
+
     result = []
-    queue = deque()
-    cur_sum, cur_level, cur_level_copy, next_level = 0, 1, 1, 0
+    queue = deque([root])
 
-    queue.append(root)
-
-    while len(queue):
-        cur = queue.popleft()
-        cur_sum += cur.val
+    while queue:
+        cur_node = queue.popleft()
+        cur_sum += cur_node.val
         cur_level -= 1
 
-        if cur.left:
-            queue.append(cur.left)
+        if cur_node.left:
+            queue.append(cur_node.left)
             next_level += 1
-
-        if cur.right:
-            queue.append(cur.right)
+        
+        if cur_node.right:
+            queue.append(cur_node.right)
             next_level += 1
 
         if cur_level == 0:
-            result.append(cur_sum / cur_level_copy)
-            cur_sum = 0
-            cur_level, cur_level_copy, next_level = next_level, next_level, 0
-
+            result.append(cur_sum/cur_total)
+            cur_level, next_level, cur_sum, cur_total = next_level, 0, 0, next_level
+    
     return result
-
 
 class TreeNode:
     def __init__(self, val):

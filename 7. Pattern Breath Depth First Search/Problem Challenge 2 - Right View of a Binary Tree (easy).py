@@ -14,23 +14,32 @@ from collections import deque
 
 
 def ans(root):
-    queue = deque()
-    queue.append(root)
-    result = []
-    cur_level, next_level = 1, 0
-    while len(queue):
-        cur = queue.popleft()
-        cur_level -= 1
-        if cur.left:
-            queue.append(cur.left)
-            next_level += 1
-        if cur.right:
-            queue.append(cur.right)
-            next_level += 1
-        if cur_level == 0:
-            result.append(cur)
-            cur_level, next_level = next_level, 0
+    if not root:
+        return []
 
+    queue = deque([root])
+    cur_count, next_count = 1, 0
+    result = []
+
+    while queue:
+        cur_node = queue.pop()
+        cur_count -= 1
+
+        if cur_node.left:
+            queue.appendleft(cur_node.left)
+            next_count += 1
+        
+        if cur_node.right:
+            queue.appendleft(cur_node.right)
+            next_count += 1
+
+
+        cur_node.next = None if not queue else queue[-1]
+
+        if cur_count == 0:
+            result.append(cur_node)
+            cur_count, next_count = next_count, 0
+    
     return result
 
 

@@ -6,36 +6,37 @@ The last node of each level should point to a null node.
 
 
 # mycode
-from __future__ import print_function
 from collections import deque
 
 
 def ans(root):
-    cur_level, next_level = 1, 0
+
+    if not root:
+        return
+
     queue = deque()
 
-    queue.append(root)
+    queue.appendleft(root)
+    cur_count, next_count = 1, 0
 
-    while len(queue):
-        cur = queue.popleft()
-        cur_level -= 1
+    while queue:
+        cur_node = queue.pop()
+        cur_count -= 1
 
-        if cur.left:
-            queue.append(cur.left)
-            next_level += 1
+        if cur_node.left:
+            queue.appendleft(cur_node.left)
+            next_count += 1
+        
+        if cur_node.right:
+            queue.appendleft(cur_node.right)
+            next_count += 1
 
-        if cur.right:
-            queue.append(cur.right)
-            next_level += 1
 
-        if cur_level == 0:
-            cur.next = None
-            cur_level, next_level = next_level, 0
-        else:
-            next_node = queue[0]
-            cur.next = next_node
+        cur_node.next = None if not queue or cur_count == 0 else queue[-1]
 
-    return root
+        if cur_count == 0:
+            cur_count, next_count = next_count, 0
+        
 
 
 class TreeNode:
