@@ -12,30 +12,26 @@ import math
 
 
 def ans(root):
-    max_sum = [float("-inf")]
-    find_sum(root, max_sum)
-    return max_sum[0]
+    max_sum = -float("inf")
 
+    def path_sum(root):
+        if not root:
+            return 0
 
-def find_sum(root, max_sum):
-    if root == None:
-        return 0
+        l_sum = max(0,path_sum(root.left))
+        r_sum = max(0,path_sum(root.right))
 
-    left_sum = find_path_sum(root.left)
-    right_sum = find_path_sum(root.right)
+        nonlocal max_sum
+        max_sum = max(max_sum, l_sum+r_sum+root.val)
 
-    sum = root.val + left_sum + right_sum
-    max_sum[0] = max(sum, max_sum[0], root.val)
+        return max(l_sum, r_sum) + root.val
 
-    find_sum(root.left, max_sum)
-    find_sum(root.right, max_sum)
+    path_sum(root)
 
+    return max_sum
 
-def find_path_sum(root):
-    if root == None:
-        return 0
+        
 
-    return root.val + max(find_path_sum(root.left), find_path_sum(root.right))
 
 
 class TreeNode:
