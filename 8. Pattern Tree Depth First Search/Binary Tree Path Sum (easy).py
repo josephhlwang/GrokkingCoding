@@ -6,15 +6,14 @@ find if the tree has a path from root-to-leaf such that the sum of all the node 
 
 
 def ans(root, sum):
-
-    if root == None:
+    if not root:
         return False
 
-    if root.left == None and root.right == None and root.val == sum:
-        return True
+    if not root.left or root.right:
+        if root.val == sum:
+            return True 
 
     return ans(root.left, sum - root.val) or ans(root.right, sum - root.val)
-
 
 # mycode
 class TreeNode:
