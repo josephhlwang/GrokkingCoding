@@ -6,20 +6,18 @@ Please note that the paths can start or end at any node but all paths must follo
 """
 
 
-def ans(root, sum):
-
-    if root == None or sum <= 0:
+def ans(root, sum, count=0):
+    if not root:
         return 0
 
-    if root.left == None and root.right == None and root.val == sum:
-        return 1
+    new_sum = sum - root.val
 
-    return (
-        ans(root.left, sum - root.val)
-        + ans(root.right, sum - root.val)
-        + ans(root.left, sum)
-        + ans(root.right, sum)
-    )
+    if new_sum == 0:
+        count += 1
+    
+    count += ans(root.left, new_sum, count) + ans(root.right, new_sum, count) + ans(root.left, sum, count) + ans(root.right, sum, count)
+
+    return count
 
 
 # mycode

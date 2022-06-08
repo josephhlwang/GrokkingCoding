@@ -12,30 +12,31 @@ Note: You can always assume that there are at least two leaf nodes in the given 
 
 
 def ans(root):
-    max_diam = [0]
-    find_diam(root, max_diam)
-    return max_diam[0]
+    max_diam = 0
 
 
-def find_diam(root, max_diam):
-    if root == None:
-        return
 
-    left_height = find_height(root.left)
-    right_height = find_height(root.right)
+    def find_height(root):
+        if root == None:
+            return 0
 
-    diam = 1 + left_height + right_height
-    max_diam[0] = max(diam, max_diam[0])
+        return 1 + max(find_height(root.left), find_height(root.right))
 
-    find_diam(root.left, max_diam)
-    find_diam(root.right, max_diam)
+    def find_diam(root):
+        if not root:
+            return 0
+
+        nonlocal max_diam
+        max_diam = max(find_height(root.left) + find_height(root.right) + 1, max_diam)
+
+        find_diam(root.left)
+        find_diam(root.right)
+
+    find_diam(root)
+
+    return max_diam
 
 
-def find_height(root):
-    if root == None:
-        return 0
-
-    return 1 + max(find_height(root.left), find_height(root.right))
 
 
 # mycode

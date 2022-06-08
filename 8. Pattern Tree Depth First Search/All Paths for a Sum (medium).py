@@ -7,26 +7,24 @@ find all paths from root-to-leaf such that the sum of all the node values of eac
 
 def ans_caller(root, sum):
     result = []
+    cur_path = []
 
-    ans(root, sum, [], result)
+    ans(root, sum, cur_path, result)
 
     return result
 
 
 def ans(root, sum, cur_path, result):
-    if root == None:
-        return
+    if root:
+        new_sum = sum - root.val
+        copy_cur_path = list(cur_path)
+        copy_cur_path.append(root.val)
 
-    copy = cur_path.copy()
-    copy.append(root.val)
-
-    if root.left == None and root.right == None and root.val == sum:
-        result.append(copy)
-
-    ans(root.left, sum - root.val, copy, result) or ans(
-        root.right, sum - root.val, copy, result
-    )
-
+        if new_sum == 0:
+            result.append(copy_cur_path)
+        
+        ans(root.left, new_sum, copy_cur_path, result)
+        ans(root.right, new_sum, copy_cur_path, result)
 
 # mycode
 class TreeNode:

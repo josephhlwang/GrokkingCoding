@@ -9,17 +9,13 @@ def ans_caller(root, sequence):
 
 
 def ans(root, sequence, index):
-    if root == None:
+    if not root or index >= len(sequence) or root.val != sequence[index]:
         return False
 
-    if root.val == sequence[index]:
-        index += 1
-        if index == len(sequence):
-            return True
-        return ans(root.left, sequence, index) or ans(root.right, sequence, index)
+    if index == len(sequence)-1 and root.left == None and root.right == None:
+        return True
 
-    return False
-
+    return ans(root.left, sequence, index + 1) or ans(root.right, sequence, index + 1)
 
 # mycode
 class TreeNode:

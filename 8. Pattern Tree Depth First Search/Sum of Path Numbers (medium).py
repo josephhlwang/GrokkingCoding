@@ -6,21 +6,21 @@ each root-to-leaf path will represent a number. Find the total sum of all the nu
 
 
 def ans(root, sum):
-
-    if root == None:
+    if not root:
         return 0
 
     path_sum = sum * 10 + root.val
-
-    if root.left == None and root.right == None:
+    if not root.left and not root.right:
         return path_sum
 
     return ans(root.left, path_sum) + ans(root.right, path_sum)
 
 
 def ans_caller(root):
-    return ans(root, 0)
+    if not root:
+        return 0
 
+    return ans(root, 0)
 
 # mycode
 class TreeNode:
