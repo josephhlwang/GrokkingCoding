@@ -30,6 +30,7 @@ from heapq import *
 import heapq
 from numbers import Number
 
+
 def ans(nums, k):
 
     # max heap will contain odd length
@@ -44,14 +45,13 @@ def ans(nums, k):
         elif len(min_heap) + 2 == len(max_heap):
             heappush(min_heap, -heappop(max_heap))
 
-
     def remove(heap, num):
         ind = heap.index(num)
         heap[ind] = heap[-1]
         del heap[-1]
 
         if heap:
-            heapq._siftdown(heap, ind, len(heap)-1)
+            heapq._siftdown(heap, ind, len(heap) - 1)
 
     for i in range(len(nums)):
         num = nums[i]
@@ -70,16 +70,16 @@ def ans(nums, k):
                 results[left] = (-max_heap[0] + min_heap[0]) / 2
             else:
                 results[left] = -max_heap[0]
-            
+
             if nums[left] <= -max_heap[0]:
                 remove(max_heap, -nums[left])
             else:
                 remove(min_heap, nums[left])
-            
+
             rebalance()
-    
+
     return results
-            
+
 
 class SlidingWindowMedian:
     def find_sliding_window_median(self, nums, k):

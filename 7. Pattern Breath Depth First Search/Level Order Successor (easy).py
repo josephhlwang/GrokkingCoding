@@ -18,16 +18,16 @@ def ans(root, key):
 
     while queue:
         cur_node = queue.popleft()
-        
+
         if cur_node.left:
             queue.append(cur_node.left)
-        
+
         if cur_node.right:
             queue.append(cur_node.right)
 
         if cur_node.val == key:
             return queue[0] if queue else None
-        
+
     return None
 
 

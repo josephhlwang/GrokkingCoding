@@ -22,9 +22,10 @@ def ans(root, sum, cur_path, result):
 
         if new_sum == 0:
             result.append(copy_cur_path)
-        
+
         ans(root.left, new_sum, copy_cur_path, result)
         ans(root.right, new_sum, copy_cur_path, result)
+
 
 # mycode
 class TreeNode:

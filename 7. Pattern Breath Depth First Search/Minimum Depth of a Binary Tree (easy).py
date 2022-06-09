@@ -11,7 +11,7 @@ from collections import deque
 def ans(root):
     if not root:
         return None
-    
+
     cur_level, next_level, depth = 1, 0, 1
 
     queue = deque([root])
@@ -22,7 +22,7 @@ def ans(root):
 
         if not cur_node.left and not cur_node.right:
             return depth
-        
+
         if cur_node.left:
             queue.append(cur_node.left)
             next_level += 1
@@ -34,7 +34,7 @@ def ans(root):
         if cur_level == 0:
             cur_level, next_level = next_level, 0
             depth += 1
-    
+
     return None
 
 
@@ -179,7 +179,7 @@ def ans_max(root):
         if cur_node.left:
             queue.append(cur_node.left)
             next_level += 1
-        
+
         if cur_node.right:
             queue.append(cur_node.right)
             next_level += 1
@@ -187,7 +187,7 @@ def ans_max(root):
         if cur_level == 0:
             cur_level, next_level = next_level, 0
             depth += 1
-        
+
     return max_level
 
 

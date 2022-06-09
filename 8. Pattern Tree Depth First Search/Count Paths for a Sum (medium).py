@@ -14,8 +14,13 @@ def ans(root, sum, count=0):
 
     if new_sum == 0:
         count += 1
-    
-    count += ans(root.left, new_sum, count) + ans(root.right, new_sum, count) + ans(root.left, sum, count) + ans(root.right, sum, count)
+
+    count += (
+        ans(root.left, new_sum, count)
+        + ans(root.right, new_sum, count)
+        + ans(root.left, sum, count)
+        + ans(root.right, sum, count)
+    )
 
     return count
 

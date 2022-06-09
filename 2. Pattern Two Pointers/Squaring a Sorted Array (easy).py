@@ -21,10 +21,10 @@ def ans(arr):
         r = arr[right]
         l = arr[left]
         if abs(l) <= abs(r):
-            result.insert(0, r ** 2)
+            result.insert(0, r**2)
             right -= 1
         else:
-            result.insert(0, l ** 2)
+            result.insert(0, l**2)
             left += 1
 
     return result

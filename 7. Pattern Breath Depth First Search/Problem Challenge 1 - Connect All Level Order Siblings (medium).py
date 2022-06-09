@@ -25,11 +25,10 @@ def ans(root):
         if cur_node.left:
             queue.appendleft(cur_node.left)
             next_count += 1
-        
+
         if cur_node.right:
             queue.appendleft(cur_node.right)
             next_count += 1
-
 
         cur_node.next = None if not queue else queue[-1]
 

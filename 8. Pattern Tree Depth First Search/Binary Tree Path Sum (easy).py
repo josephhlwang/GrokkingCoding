@@ -11,9 +11,10 @@ def ans(root, sum):
 
     if not root.left or root.right:
         if root.val == sum:
-            return True 
+            return True
 
     return ans(root.left, sum - root.val) or ans(root.right, sum - root.val)
+
 
 # mycode
 class TreeNode:

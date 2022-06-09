@@ -44,12 +44,12 @@ def ans(requiredCapital, profits, numberOfProjects, initialCapital):
         while capital_heap and capital_heap[0][0] <= current_capital:
             _, i = heappop(capital_heap)
             heappush(profit_heap, -profits[i])
-        
+
         if not profit_heap:
             break
 
         current_capital -= heappop(profit_heap)
-    
+
     return current_capital
 
 

@@ -18,20 +18,17 @@ def ans(root):
         if not root:
             return 0
 
-        l_sum = max(0,path_sum(root.left))
-        r_sum = max(0,path_sum(root.right))
+        l_sum = max(0, path_sum(root.left))
+        r_sum = max(0, path_sum(root.right))
 
         nonlocal max_sum
-        max_sum = max(max_sum, l_sum+r_sum+root.val)
+        max_sum = max(max_sum, l_sum + r_sum + root.val)
 
         return max(l_sum, r_sum) + root.val
 
     path_sum(root)
 
     return max_sum
-
-        
-
 
 
 class TreeNode:

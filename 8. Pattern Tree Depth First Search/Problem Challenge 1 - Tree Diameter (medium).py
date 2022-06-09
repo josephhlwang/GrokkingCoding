@@ -14,8 +14,6 @@ Note: You can always assume that there are at least two leaf nodes in the given 
 def ans(root):
     max_diam = 0
 
-
-
     def find_height(root):
         if root == None:
             return 0
@@ -35,8 +33,6 @@ def ans(root):
     find_diam(root)
 
     return max_diam
-
-
 
 
 # mycode

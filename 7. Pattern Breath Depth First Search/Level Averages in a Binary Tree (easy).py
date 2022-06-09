@@ -25,16 +25,17 @@ def ans(root):
         if cur_node.left:
             queue.append(cur_node.left)
             next_level += 1
-        
+
         if cur_node.right:
             queue.append(cur_node.right)
             next_level += 1
 
         if cur_level == 0:
-            result.append(cur_sum/cur_total)
+            result.append(cur_sum / cur_total)
             cur_level, next_level, cur_sum, cur_total = next_level, 0, 0, next_level
-    
+
     return result
+
 
 class TreeNode:
     def __init__(self, val):

@@ -33,7 +33,7 @@ class MedianOfStream:
             return -self.max_heap[0]
         else:
             return (-self.max_heap[0] + self.min_heap[0]) / 2
-    
+
     def insert_num(self, num):
         # 1. max == min
         # 2. max = min + 1
@@ -43,12 +43,11 @@ class MedianOfStream:
         else:
             heappush(self.min_heap, num)
 
-        if len(self.max_heap)+1 == len(self.min_heap):
+        if len(self.max_heap) + 1 == len(self.min_heap):
             heappush(self.max_heap, -heappop(self.min_heap))
         elif len(self.max_heap) == len(self.min_heap) + 2:
             heappush(self.min_heap, -heappop(self.max_heap))
-        
-        
+
 
 class MedianOfAStream:
 

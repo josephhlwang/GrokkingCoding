@@ -29,7 +29,7 @@ def ans(root):
         if cur_node.left:
             queue.appendleft(cur_node.left)
             next_count += 1
-        
+
         if cur_node.right:
             queue.appendleft(cur_node.right)
             next_count += 1
@@ -41,7 +41,7 @@ def ans(root):
                 cur_level.reverse()
             result.append(cur_level)
             cur_level = []
-    
+
     return result
 
 

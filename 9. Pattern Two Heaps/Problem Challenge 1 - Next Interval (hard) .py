@@ -48,7 +48,6 @@ def ans(intervals):
 
     return results
 
-            
 
 class Interval:
     def __init__(self, start, end):

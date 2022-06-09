@@ -12,10 +12,11 @@ def ans(root, sequence, index):
     if not root or index >= len(sequence) or root.val != sequence[index]:
         return False
 
-    if index == len(sequence)-1 and root.left == None and root.right == None:
+    if index == len(sequence) - 1 and root.left == None and root.right == None:
         return True
 
     return ans(root.left, sequence, index + 1) or ans(root.right, sequence, index + 1)
+
 
 # mycode
 class TreeNode:
