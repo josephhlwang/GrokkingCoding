@@ -222,3 +222,54 @@ def DFS(root):
     DFS(root.left)
     DFS(root.right)
 ```
+
+# Two Heaps
+
+Problem: Two types: 1. Find median of data stream. 2. Min max two relating arrays.
+
+Solution: 1. Use a max and a min heap to keep track of a sorted array; rebalance the heaps as arrays grow. 2. Use two heaps to track the contents of each of arrays. Always fix and loop through one heap while popping the other.
+
+```python
+def TWO_HEAPS_MEDIAN(nums):
+
+    min_heap = []
+    max_heap = []
+    results = []
+
+    for num in nums:
+        # max_heap contains the odd lengths
+        if not max_heap num <= -max_heap[0]:
+            heappush(max_heap, -num)
+        else:
+            heappush(min_heap, num)
+
+        # rebalance
+        if len(min_heap) - 1 == len(max_heap):
+            heappush(max_heap, -heappop(min_heap))
+        elif len(min_heap) = len(max_heap) - 2:
+            heappush(min_heap, -heappop(max_heap))
+
+        # calculate median
+```
+
+```python
+def TWO_HEAPS(arr1, arr2):
+
+    heap1 = []
+    heap2 = []
+
+    for i in arr1:
+        heappush(heap1, (arr1[i], i))
+        heappush(heap2, (arr2[i], i))
+
+    while heap1:
+        dat1, i = heappop(heap1)
+
+        while heap2 and heap2[0][0] < dat1:
+            heappop(heap2)
+
+        if not heap2:
+            break
+
+        # found dat1/i relation with in arr2.
+```
