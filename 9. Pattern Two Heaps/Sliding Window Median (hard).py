@@ -28,59 +28,58 @@ Explanation: Lets consider all windows of size ‘3’:
 # mycode
 from heapq import *
 import heapq
-
+from numbers import Number
 
 def ans(nums, k):
-    minHeap = []
-    maxHeap = []
+
+    # max heap will contain odd length
+
+    min_heap = []
+    max_heap = []
     results = [0] * (len(nums) - k + 1)
 
+    def rebalance():
+        if len(min_heap) == len(max_heap) + 1:
+            heappush(max_heap, -heappop(min_heap))
+        elif len(min_heap) + 2 == len(max_heap):
+            heappush(min_heap, -heappop(max_heap))
+
+
+    def remove(heap, num):
+        ind = heap.index(num)
+        heap[ind] = heap[-1]
+        del heap[-1]
+
+        if heap:
+            heapq._siftdown(heap, ind, len(heap)-1)
+
     for i in range(len(nums)):
-        # push cur val into max heap if val smaller than max heap
-        if not maxHeap or nums[i] <= -maxHeap[0]:
-            heappush(maxHeap, -nums[i])
-        # o.w. push into min heap
+        num = nums[i]
+
+        if not max_heap or num <= -max_heap[0]:
+            heappush(max_heap, -num)
         else:
-            heappush(minHeap, nums[i])
+            heappush(min_heap, num)
 
-        # make sure max heap len even or contain one more
-        rebal(minHeap, maxHeap)
+        rebalance()
 
-        # check if window has k elements
         left = i - k + 1
+
         if left >= 0:
-            # add median to results
-            if len(minHeap) == len(maxHeap):
-                results[left] = (minHeap[0] + -maxHeap[0]) / 2
+            if len(min_heap) == len(max_heap):
+                results[left] = (-max_heap[0] + min_heap[0]) / 2
             else:
-                results[left] = -maxHeap[0]
-
-            # window had k elements, remove left element
-            remove_element = nums[left]
-
-            if remove_element <= -maxHeap[0]:
-                maxHeap = rem(-remove_element, maxHeap)
+                results[left] = -max_heap[0]
+            
+            if nums[left] <= -max_heap[0]:
+                remove(max_heap, -nums[left])
             else:
-                minHeap = rem(remove_element, minHeap)
-
-        # make sure max heap len even or contain one more
-        rebal(minHeap, maxHeap)
-
+                remove(min_heap, nums[left])
+            
+            rebalance()
+    
     return results
-
-
-def rem(element, heap):
-    ele_index = heap.index(element)
-
-    return heap[:ele_index] + heap[ele_index + 1 :]
-
-
-def rebal(minHeap, maxHeap):
-    if len(maxHeap) > len(minHeap) + 1:
-        heappush(minHeap, -heappop(maxHeap))
-    elif len(maxHeap) < len(minHeap):
-        heappush(maxHeap, -heappop(minHeap))
-
+            
 
 class SlidingWindowMedian:
     def find_sliding_window_median(self, nums, k):
