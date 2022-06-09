@@ -15,13 +15,31 @@ Output: [], [1], [5], [3], [1,5], [1,3], [5,3], [1,5,3], [3,3], [1,3,3], [3,3,5]
 
 # mycode
 def ans(nums):
-    subsets = []
+    nums.sort()
+    subsets = [[]]
+
+    last_start = 0
+    for i in range(len(nums)):
+        num = nums[i]
+        temp = []
+        start = 0
+        if i > 0 and nums[i] == nums[i - 1]:
+            start = last_start
+        last_start = len(subsets)
+        for j in range(start, len(subsets)):
+            sub = subsets[j]
+            sub_copy = sub.copy()
+            sub_copy.append(num)
+            temp.append(sub_copy)
+        subsets.extend(temp)
+
+    return subsets
 
 
 def main():
 
-    print("Here is the list of subsets: " + str(find_subsets([1, 3, 3])))
-    print("Here is the list of subsets: " + str(find_subsets([1, 5, 3, 3])))
+    print("Here is the list of subsets: " + str(ans([1, 3, 3])))
+    print("Here is the list of subsets: " + str(ans([1, 5, 3, 3])))
 
 
 main()
