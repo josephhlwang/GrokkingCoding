@@ -22,25 +22,33 @@ from heapq import *
 
 
 class MedianOfStream:
-    minHeap = []
-    maxHeap = []
-    length = 0
+    # max_heap will contain one more if odd
+    def __init__(self):
+        self.max_heap = []
+        self.min_heap = []
+        self.length = 0
 
     def find_median(self):
-        if self.length == 0:
-            return None
-        elif self.length % 2 == 0:
-            return (self.minHeap[0] + -1 * self.maxHeap[0]) / 2
+        if (len(self.max_heap) + len(self.min_heap)) % 2 != 0:
+            return -self.max_heap[0]
         else:
-            return self.minHeap[0]
-
+            return (-self.max_heap[0] + self.min_heap[0]) / 2
+    
     def insert_num(self, num):
-        if self.length % 2 == 0:
-            heappush(self.minHeap, num)
-        else:
-            heappush(self.maxHeap, -1 * num)
-        self.length += 1
+        # 1. max == min
+        # 2. max = min + 1
 
+        if not self.max_heap or num <= -self.max_heap[0]:
+            heappush(self.max_heap, -num)
+        else:
+            heappush(self.min_heap, num)
+
+        if len(self.max_heap)+1 == len(self.min_heap):
+            heappush(self.max_heap, -heappop(self.min_heap))
+        elif len(self.max_heap) == len(self.min_heap) + 2:
+            heappush(self.min_heap, -heappop(self.max_heap))
+        
+        
 
 class MedianOfAStream:
 
