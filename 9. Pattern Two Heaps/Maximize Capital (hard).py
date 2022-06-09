@@ -29,28 +29,28 @@ After selecting the three projects, our total capital will be 8 (1+2+5).
 
 # mycode
 from heapq import *
+from re import L
 
 
 def ans(requiredCapital, profits, numberOfProjects, initialCapital):
-    min_capital_req = []
-    max_profit_req = []
+    current_capital = initialCapital
+    capital_heap = []
+    profit_heap = []
+
     for i in range(len(requiredCapital)):
-        heappush(min_capital_req, (requiredCapital[i], i))
+        heappush(capital_heap, (requiredCapital[i], i))
 
-    cur_capital = initialCapital
-    cur_projects = 0
-    while cur_projects < numberOfProjects:
-        while min_capital_req and min_capital_req[0][0] <= cur_capital:
-            req_captial, i = heappop(min_capital_req)
-            heappush(max_profit_req, (-1 * profits[i], i))
-
-        if len(max_profit_req) == 0:
+    for _ in range(numberOfProjects):
+        while capital_heap and capital_heap[0][0] <= current_capital:
+            _, i = heappop(capital_heap)
+            heappush(profit_heap, -profits[i])
+        
+        if not profit_heap:
             break
 
-        cur_capital += -1 * heappop(max_profit_req)[0]
-        cur_projects += 1
-
-    return cur_capital
+        current_capital -= heappop(profit_heap)
+    
+    return current_capital
 
 
 def find_maximum_capital(capital, profits, numberOfProjects, initialCapital):
@@ -77,7 +77,7 @@ def find_maximum_capital(capital, profits, numberOfProjects, initialCapital):
 
 def main():
 
-    print("Maximum capital: " + str(ans([0, 1, 2], [1, 2, 3], 2, 1)))
+    print("Maximum capital: " + str(ans([0, 1, 2], [1, 2, 3], 3, 1)))
     print("Maximum capital: " + str(ans([0, 1, 2, 3], [1, 2, 3, 5], 3, 0)))
 
 
@@ -116,7 +116,7 @@ def find_maximum_capital(capital, profits, numberOfProjects, initialCapital):
 
 def main():
 
-    print("Maximum capital: " + str(find_maximum_capital([0, 1, 2], [1, 2, 3], 2, 1)))
+    print("Maximum capital: " + str(find_maximum_capital([0, 1, 2], [1, 2, 3], 3, 1)))
     print(
         "Maximum capital: "
         + str(find_maximum_capital([0, 1, 2, 3], [1, 2, 3, 5], 3, 0))

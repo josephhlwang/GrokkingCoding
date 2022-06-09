@@ -29,28 +29,26 @@ from heapq import *
 def ans(intervals):
     start_heap = []
     end_heap = []
+    results = [-1] * len(intervals)
 
     for i in range(len(intervals)):
         heappush(start_heap, (intervals[i].start, i))
         heappush(end_heap, (intervals[i].end, i))
 
-    results = [-1] * len(intervals)
-
     while end_heap:
-        end, i = heappop(end_heap)
-
-        while start_heap and (end > start_heap[0][0] or i == start_heap[0][1]):
+        cur_end, end_ind = heappop(end_heap)
+        while start_heap and start_heap[0][0] < cur_end:
             heappop(start_heap)
 
-        if start_heap == []:
+        if not start_heap:
             break
 
-        _, start_i = start_heap[0]
-
-        results[i] = start_i
+        _, start_ind = heappop(start_heap)
+        results[end_ind] = start_ind
 
     return results
 
+            
 
 class Interval:
     def __init__(self, start, end):
